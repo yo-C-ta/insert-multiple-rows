@@ -11,6 +11,14 @@
     "categories": [
         "Other"
     ],
+    "homepage": "https://github.com/yo-C-ta/insert-multiple-rows/blob/master/README.md",
+    "bugs": {
+        "url": "https://github.com/yo-C-ta/insert-multiple-rows/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yo-C-ta/insert-multiple-rows.git"
+    },
     "keywords": [
         "multi-cursor",
         "multiple-cursors",
