@@ -10,20 +10,25 @@ USAGE: Set multi-cursor and call bellow commands.
 
 > Attention: Insertion is performed cursor-selection-order.
 
-### Command: Insert decimal to multiple rows
+### _Command_: Insert decimal to multiple rows
+
+> Image sample sets a space to `insertDecimalToMultipleRows.paddingChar`
 
 ![Insert decimal](./images/decimal.png)
 
-### Command: Insert hexadecimal to multiple rows
+### _Command_: Insert bitfield to multiple rows
 
-![Insert hexadecimal](./images/hexadecimal.png)
+![Insert bitfield](./images/bitfield.png)
 
-### Command: Insert charcter to multiple rows
+### _Command_: Insert charcter to multiple rows
 
 ![Insert charcter](./images/character.png)
 
 ## Extension Settings
 
-"Insert Multiple Rows" has no settings.
+- `insertDecimalToMultipleRows.paddingChar`
+  - What: padding character for "Insert decimal to multiple rows" command
+  - Default: '0'
+  - Value: single character
 
 ## [Release Note](./CHANGELOG.md)

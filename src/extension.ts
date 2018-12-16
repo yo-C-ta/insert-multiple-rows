@@ -30,10 +30,16 @@ export function activate(context: vscode.ExtensionContext) {
                     var editor = vscode.window.activeTextEditor;
                     if (value === undefined || editor === undefined) { return; }
                     var sels = editor.selections;
-                    var text = parseInt(value, 10);
+                    var num = parseInt(value, 10);
+                    var digit = Math.trunc(0.435 * Math.log(sels.length + num - 1)) + 1;
+                    var padconf = vscode.workspace.getConfiguration()
+                        .get('insertDecimalToMultipleRows.paddingChar');
+                    if (padconf === undefined || typeof padconf !== 'string') { return; }
+                    var padding = padconf.charAt(0).repeat(10);
                     editor.edit(edit => {
                         sels.forEach(select => {
-                            edit.insert(select.start, (text++).toString());
+                            var text = (padding + (num++).toString()).slice(-digit);
+                            edit.insert(select.start, text);
                         });
                     });
                 });
@@ -41,24 +47,25 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     /*------------------------------------------------------------------------------------------*/
-    /*  Insert hexadecimal to multiple rows                                                     */
+    /*  Insert bitfield to multiple rows                                                        */
     /*------------------------------------------------------------------------------------------*/
-    let insHexMulrowsCmd = vscode.commands.registerCommand(
-        'extension.insHexMulrows',
+    let insBitFldMulrowsCmd = vscode.commands.registerCommand(
+        'extension.insBitFldMulrows',
         () => {
             vscode.window
                 .showInputBox({
                     value: '0x01',
-                    prompt: 'Insert hex from:',
+                    valueSelection: [2, 4],
+                    prompt: 'Insert bitfield from:',
                     validateInput: param => {
-                        let regex = /^0x[0-9A-Fa-f]{1,8}$/;
-                        return regex.test(param) ? '' : 'input: hexadecimal (\'0x\' format) number';
+                        let regex = /^0x0{0,7}[1248]0{0,7}$/;
+                        return regex.test(param) ? '' : 'input: bitfield (\'0x\' format)';
                     }
                 })
                 .then(value => {
                     var editor = vscode.window.activeTextEditor;
                     if (value === undefined || editor === undefined) { return; }
-                    var shift = Math.round(Math.LOG2E * Math.log(parseInt(value, 16)));
+                    var shift = Math.trunc(1.443 * Math.log(parseInt(value, 16)));
                     var sels = editor.selections;
                     var digit = 8;
                     if (sels.length + shift <= 8) { digit = 2; }
@@ -66,7 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
                     editor.edit(edit => {
                         sels.forEach(select => {
                             var text = (1 << shift).toString(16).toUpperCase();
-                            text = ('00000000' + text).slice(-digit);
+                            text = ('0'.repeat(8) + text).slice(-digit);
                             edit.insert(select.start, '0x' + text);
                             shift++;
                         });
@@ -105,7 +112,7 @@ export function activate(context: vscode.ExtensionContext) {
                     var digit = Math.trunc(0.307 * Math.log(sels.length + num - 1)) + 1;
                     editor.edit(edit => {
                         sels.forEach(select => {
-                            var text = ('0000000000' + (num++).toString(26)).slice(-digit);
+                            var text = ('0'.repeat(10) + (num++).toString(26)).slice(-digit);
                             edit.insert(select.start, text.split('').map(elm => {
                                 return String.fromCharCode(
                                     parseInt(elm, 26) + 65
@@ -120,7 +127,7 @@ export function activate(context: vscode.ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
 
     context.subscriptions.push(insDecMulrowsCmd);
-    context.subscriptions.push(insHexMulrowsCmd);
+    context.subscriptions.push(insBitFldMulrowsCmd);
     context.subscriptions.push(insCharMulrowsCmd);
 }
 

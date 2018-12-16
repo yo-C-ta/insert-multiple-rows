@@ -2,7 +2,7 @@
     "name": "insert-multiple-rows",
     "displayName": "Insert Multiple Rows",
     "description": "Insert sequential number / bit-field / character to multi-cursor rows.",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "engines": {
         "vscode": "^1.29.0"
     },
@@ -29,7 +29,7 @@
     "icon": "images/icon.png",
     "activationEvents": [
         "onCommand:extension.insDecMulrows",
-        "onCommand:extension.insHexMulrows",
+        "onCommand:extension.insBitFldMulrows",
         "onCommand:extension.insCharMulrows"
     ],
     "main": "./out/extension",
@@ -40,14 +40,24 @@
                 "title": "Insert decimal to multiple rows"
             },
             {
-                "command": "extension.insHexMulrows",
-                "title": "Insert hexadecimal to multiple rows"
+                "command": "extension.insBitFldMulrows",
+                "title": "Insert bitfield to multiple rows"
             },
             {
                 "command": "extension.insCharMulrows",
                 "title": "Insert charcter to multiple rows"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "Insert Multiple Rows Configuration",
+            "properties": {
+                "insertDecimalToMultipleRows.paddingChar": {
+                    "type": "string",
+                    "default": "0",
+                    "description": "Padding character configuration for decimal insertion"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
