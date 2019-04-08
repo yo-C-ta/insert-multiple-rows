@@ -1,0 +1,7 @@
+language: node_js
+
+os: linux
+
+script:
+  - npm install
+  - npm run vscode:prepublish
