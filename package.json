@@ -1,76 +1,76 @@
 {
-    "name": "insert-multiple-rows",
-    "displayName": "Insert Multiple Rows",
-    "description": "Insert sequential number / bit-field / character to multi-cursor rows.",
-    "version": "2.0.0",
-    "engines": {
-        "vscode": "^1.29.0"
-    },
-    "publisher": "yo-C-ta",
-    "license": "see LICENSE",
-    "categories": [
-        "Other"
+  "name": "insert-multiple-rows",
+  "displayName": "Insert Multiple Rows",
+  "description": "Insert sequential number / bit-field / character to multi-cursor rows.",
+  "version": "2.0.1",
+  "engines": {
+    "vscode": "^1.29.0"
+  },
+  "publisher": "yo-C-ta",
+  "license": "see LICENSE",
+  "categories": [
+    "Other"
+  ],
+  "homepage": "https://github.com/yo-C-ta/insert-multiple-rows/blob/master/README.md",
+  "bugs": {
+    "url": "https://github.com/yo-C-ta/insert-multiple-rows/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yo-C-ta/insert-multiple-rows.git"
+  },
+  "keywords": [
+    "multi-cursor",
+    "multiple-cursors",
+    "insert",
+    "sequence",
+    "enum"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onCommand:extension.insDecMulrows",
+    "onCommand:extension.insBitFldMulrows",
+    "onCommand:extension.insCharMulrows"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.insDecMulrows",
+        "title": "Insert decimal to multiple rows"
+      },
+      {
+        "command": "extension.insBitFldMulrows",
+        "title": "Insert bitfield to multiple rows"
+      },
+      {
+        "command": "extension.insCharMulrows",
+        "title": "Insert charcter to multiple rows"
+      }
     ],
-    "homepage": "https://github.com/yo-C-ta/insert-multiple-rows/blob/master/README.md",
-    "bugs": {
-        "url": "https://github.com/yo-C-ta/insert-multiple-rows/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/yo-C-ta/insert-multiple-rows.git"
-    },
-    "keywords": [
-        "multi-cursor",
-        "multiple-cursors",
-        "insert",
-        "sequence",
-        "enum"
-    ],
-    "icon": "images/icon.png",
-    "activationEvents": [
-        "onCommand:extension.insDecMulrows",
-        "onCommand:extension.insBitFldMulrows",
-        "onCommand:extension.insCharMulrows"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.insDecMulrows",
-                "title": "Insert decimal to multiple rows"
-            },
-            {
-                "command": "extension.insBitFldMulrows",
-                "title": "Insert bitfield to multiple rows"
-            },
-            {
-                "command": "extension.insCharMulrows",
-                "title": "Insert charcter to multiple rows"
-            }
-        ],
-        "configuration": {
-            "title": "Insert Multiple Rows Configuration",
-            "properties": {
-                "insertDecimalToMultipleRows.paddingChar": {
-                    "type": "string",
-                    "default": "0",
-                    "description": "Padding character configuration for decimal insertion"
-                }
-            }
+    "configuration": {
+      "title": "Insert Multiple Rows Configuration",
+      "properties": {
+        "insertDecimalToMultipleRows.paddingChar": {
+          "type": "string",
+          "default": "0",
+          "description": "Padding character configuration for decimal insertion"
         }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^3.1.4",
-        "vscode": "^1.1.25",
-        "tslint": "^5.8.0",
-        "@types/node": "^8.10.25",
-        "@types/mocha": "^2.2.42"
+      }
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^3.1.4",
+    "vscode": "^1.1.25",
+    "tslint": "^5.8.0",
+    "@types/node": "^8.10.25",
+    "@types/mocha": "^2.2.42"
+  }
 }
