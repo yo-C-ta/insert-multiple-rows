@@ -1,4 +1,4 @@
-# :pencil: Insert Multiple Rows
+# Insert Multiple Rows
 
 ![version](https://img.shields.io/github/package-json/v/yo-C-ta/insert-multiple-rows.svg) ![issue](https://img.shields.io/github/issues/yo-C-ta/insert-multiple-rows.svg) ![size](https://img.shields.io/github/repo-size/yo-C-ta/insert-multiple-rows.svg) ![license](https://img.shields.io/github/license/yo-C-ta/insert-multiple-rows.svg) ![rate](https://img.shields.io/visual-studio-marketplace/r/yo-C-ta.insert-multiple-rows.svg) ![download](https://img.shields.io/visual-studio-marketplace/d/yo-C-ta.insert-multiple-rows.svg) [![Build Status](https://travis-ci.org/yo-C-ta/insert-multiple-rows.svg?branch=master)](https://travis-ci.org/yo-C-ta/insert-multiple-rows)
 
@@ -12,17 +12,17 @@ USAGE: Set multi-cursor and call bellow commands.
 
 > Attention: Insertion is performed cursor-selection-order.
 
-### _Command_: :1234: Insert decimal to multiple rows
+### _Command_: Insert decimal to multiple rows :1234:
 
 > Image sample sets a space to `insertDecimalToMultipleRows.paddingChar`
 
 ![Insert decimal](./images/decimal.png)
 
-### _Command_: :zero: Insert bitfield to multiple rows
+### _Command_: Insert bitfield to multiple rows :zero:
 
 ![Insert bitfield](./images/bitfield.png)
 
-### _Command_: :capital_abcd: Insert charcter to multiple rows
+### _Command_: Insert charcter to multiple rows :capital_abcd:
 
 ![Insert charcter](./images/character.png)
 
