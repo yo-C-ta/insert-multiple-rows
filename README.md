@@ -14,17 +14,15 @@ USAGE: Set multi-cursor and call bellow commands.
 
 ### _Command_: Insert decimal to multiple rows :1234:
 
-> Image sample sets a space to `insertDecimalToMultipleRows.paddingChar`
-
-![Insert decimal](./images/decimal.png)
+![Insert decimal demo](./images/dec.gif)
 
 ### _Command_: Insert bitfield to multiple rows :zero:
 
-![Insert bitfield](./images/bitfield.png)
+![Insert bitfield demo](./images/bit.gif)
 
 ### _Command_: Insert charcter to multiple rows :capital_abcd:
 
-![Insert charcter](./images/character.png)
+![Insert charcter demo](./images/char.gif)
 
 ## Extension Settings
 
