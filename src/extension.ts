@@ -1,8 +1,16 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import {
+    commands,
+    window,
+    workspace,
+    TextEditor,
+    Position,
+    Selection,
+    ExtensionContext,
+} from 'vscode';
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
     console.log(
         'Congratulations, your extension "insert-multiple-rows" is now active!'
     );
@@ -11,12 +19,12 @@ export function activate(context: vscode.ExtensionContext) {
     /*  Insert cursor support function                                                          */
     /*------------------------------------------------------------------------------------------*/
     const insCursorToOtherRows = (
-        editor: vscode.TextEditor,
-        sels: vscode.Selection[],
+        editor: TextEditor,
+        sels: Selection[],
         insRows: () => void
     ) => {
         if (sels.length === 1) {
-            vscode.window
+            window
                 .showInputBox({
                     value: '1',
                     prompt: 'How many rows?',
@@ -38,8 +46,8 @@ export function activate(context: vscode.ExtensionContext) {
                         lnum++
                     ) {
                         const cnum = editor.document.lineAt(lnum).text.length;
-                        const position = new vscode.Position(lnum, cnum);
-                        sels.push(new vscode.Selection(position, position));
+                        const position = new Position(lnum, cnum);
+                        sels.push(new Selection(position, position));
                     }
                     insRows();
                 });
@@ -51,10 +59,10 @@ export function activate(context: vscode.ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     /*  Insert decimal to multiple rows                                                         */
     /*------------------------------------------------------------------------------------------*/
-    const insDecMulrowsCmd = vscode.commands.registerCommand(
+    const insDecMulrowsCmd = commands.registerCommand(
         'extension.insDecMulrows',
         () => {
-            vscode.window
+            window
                 .showInputBox({
                     value: '1',
                     prompt: 'Insert dec from:',
@@ -64,7 +72,7 @@ export function activate(context: vscode.ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = vscode.window.activeTextEditor;
+                    const editor = window.activeTextEditor;
                     if (value === undefined || editor === undefined) {
                         return;
                     }
@@ -72,7 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
                     let num = parseInt(value, 10);
 
                     const insertDec = () => {
-                        const padconf = vscode.workspace
+                        const padconf = workspace
                             .getConfiguration()
                             .get('insertDecimalToMultipleRows.paddingChar');
                         if (
@@ -103,10 +111,10 @@ export function activate(context: vscode.ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     /*  Insert bitfield to multiple rows                                                        */
     /*------------------------------------------------------------------------------------------*/
-    const insBitFldMulrowsCmd = vscode.commands.registerCommand(
+    const insBitFldMulrowsCmd = commands.registerCommand(
         'extension.insBitFldMulrows',
         () => {
-            vscode.window
+            window
                 .showInputBox({
                     value: '0x01',
                     valueSelection: [2, 4],
@@ -119,7 +127,7 @@ export function activate(context: vscode.ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = vscode.window.activeTextEditor;
+                    const editor = window.activeTextEditor;
                     if (value === undefined || editor === undefined) {
                         return;
                     }
@@ -156,10 +164,10 @@ export function activate(context: vscode.ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     /*  Insert charcter to multiple rows                                                        */
     /*------------------------------------------------------------------------------------------*/
-    const insCharMulrowsCmd = vscode.commands.registerCommand(
+    const insCharMulrowsCmd = commands.registerCommand(
         'extension.insCharMulrows',
         () => {
-            vscode.window
+            window
                 .showInputBox({
                     value: 'A',
                     prompt: 'Insert char from:',
@@ -169,7 +177,7 @@ export function activate(context: vscode.ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = vscode.window.activeTextEditor;
+                    const editor = window.activeTextEditor;
                     if (value === undefined || editor === undefined) {
                         return;
                     }
@@ -195,18 +203,16 @@ export function activate(context: vscode.ExtensionContext) {
                             sels.forEach(select => {
                                 const text = (
                                     '0'.repeat(10) + (num++).toString(26)
-                                ).slice(-digit);
-                                edit.insert(
-                                    select.start,
-                                    text
-                                        .split('')
-                                        .map(elm => {
-                                            return String.fromCharCode(
-                                                parseInt(elm, 26) + 65
-                                            ).toString();
-                                        })
-                                        .join('')
-                                );
+                                )
+                                    .slice(-digit)
+                                    .split('')
+                                    .map(elm => {
+                                        return String.fromCharCode(
+                                            parseInt(elm, 26) + 65
+                                        ).toString();
+                                    })
+                                    .join('');
+                                edit.insert(select.start, text);
                             });
                         });
                     };
