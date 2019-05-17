@@ -196,9 +196,11 @@ export function activate(context: ExtensionContext) {
 
                     const insertChar = () => {
                         const digit =
-                            Math.trunc(
-                                0.307 * Math.log(sels.length + num - 1)
-                            ) + 1;
+                            sels.length > 1
+                                ? Math.trunc(
+                                      0.307 * Math.log(sels.length + num - 1)
+                                  ) + 1
+                                : 1;
                         editor.edit(edit => {
                             sels.forEach(select => {
                                 const text = (
