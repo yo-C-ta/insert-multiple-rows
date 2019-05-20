@@ -26,9 +26,19 @@ USAGE: Set multi-cursor and call bellow commands.
 
 ## Extension Settings
 
-- `insertDecimalToMultipleRows.paddingChar`
-  - What: padding character for "Insert decimal to multiple rows" command
-  - Default: '0'
-  - Value: single character
+-   `insertDecimalToMultipleRows.paddingChar`
+    -   What: padding character for "Insert decimal to multiple rows" command
+    -   Default: '0'
+    -   Value: single character
+
+## Example of use
+
+### Make sample csv
+
+![csv sample](./images/example/make_csv.gif)
+
+### Insert C define macros
+
+![c sample](./images/example/c_define.gif)
 
 ## [Release Note](./CHANGELOG.md)
