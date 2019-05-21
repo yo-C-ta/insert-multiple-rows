@@ -18,10 +18,10 @@ export function activate(context: ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     /*  Insert cursor support function                                                          */
     /*------------------------------------------------------------------------------------------*/
-    const insCursorToOtherRows = (
+    const insertMultipleRows = (
         editor: TextEditor,
         sels: Selection[],
-        insRows: () => void
+        insertion: () => void
     ) => {
         if (sels.length === 1) {
             window
@@ -49,10 +49,10 @@ export function activate(context: ExtensionContext) {
                         const position = new Position(lnum, cnum);
                         sels.push(new Selection(position, position));
                     }
-                    insRows();
+                    insertion();
                 });
         } else {
-            insRows();
+            insertion();
         }
     };
 
@@ -103,7 +103,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insCursorToOtherRows(editor, sels, insertDec);
+                    insertMultipleRows(editor, sels, insertDec);
                 });
         }
     );
@@ -156,7 +156,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insCursorToOtherRows(editor, sels, insertBf);
+                    insertMultipleRows(editor, sels, insertBf);
                 });
         }
     );
@@ -218,7 +218,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insCursorToOtherRows(editor, sels, insertChar);
+                    insertMultipleRows(editor, sels, insertChar);
                 });
         }
     );
