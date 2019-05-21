@@ -10,6 +10,8 @@ import {
     ExtensionContext,
 } from 'vscode';
 
+import { EOL } from 'os';
+
 export function activate(context: ExtensionContext) {
     console.log(
         'Congratulations, your extension "insert-multiple-rows" is now active!'
@@ -34,22 +36,40 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    if (value === undefined || editor === undefined) {
-                        return;
-                    }
-                    const linenum = parseInt(value, 10);
-                    const curline = sels[0].start.line + 1;
-                    for (
-                        let lnum = curline;
-                        lnum < curline + linenum - 1 &&
-                        lnum < editor.document.lineCount;
-                        lnum++
-                    ) {
-                        const cnum = editor.document.lineAt(lnum).text.length;
-                        const position = new Position(lnum, cnum);
-                        sels.push(new Selection(position, position));
-                    }
-                    insertion();
+                    const linenum =
+                        value !== undefined ? parseInt(value, 10) : 1;
+                    const lastLineCnt = editor.document.lineCount - 1;
+                    const lastLine = editor.document.lineAt(lastLineCnt);
+                    const remain =
+                        editor.document.lineCount - sels[0].start.line;
+
+                    editor
+                        .edit(edit => {
+                            if (linenum > remain) {
+                                edit.insert(
+                                    new Position(
+                                        lastLineCnt,
+                                        lastLine.text.length
+                                    ),
+                                    EOL.repeat(linenum - remain)
+                                );
+                            }
+                        })
+                        .then(value => {
+                            const curline = sels[0].start.line + 1;
+                            for (
+                                let lnum = curline;
+                                lnum < curline + linenum - 1 &&
+                                lnum < editor.document.lineCount;
+                                lnum++
+                            ) {
+                                const cnum = editor.document.lineAt(lnum).text
+                                    .length;
+                                const position = new Position(lnum, cnum);
+                                sels.push(new Selection(position, position));
+                            }
+                            insertion();
+                        });
                 });
         } else {
             insertion();
