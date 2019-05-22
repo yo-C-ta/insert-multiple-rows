@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.2.0
+
+-   Add new feature to insert new-line if the file line count is less than the input number of rows.
+
 ## 2.1.0
 
 -   Add new feature to input number of rows
