@@ -104,9 +104,7 @@ export function activate(context: ExtensionContext) {
                             return;
                         }
                         const padding = padconf.charAt(0).repeat(10);
-                        const digit =
-                            Math.trunc(0.435 * Math.log(ss.length + num - 1)) +
-                            1;
+                        const digit = Math.log10(ss.length + num - 1) + 1;
                         editor.edit(edit => {
                             ss.forEach(select => {
                                 const text = (
@@ -146,7 +144,7 @@ export function activate(context: ExtensionContext) {
                     }
 
                     let shift = Math.trunc(
-                        1.443 * Math.log(parseInt(value, 16))
+                        Math.log(parseInt(value, 16)) / Math.log(2)
                     );
                     const insertBf = (ss: Selection[]) => {
                         let digit = 8;
@@ -207,9 +205,10 @@ export function activate(context: ExtensionContext) {
                         });
                     const insertChar = (ss: Selection[]) => {
                         const digit =
-                            ss.length > 1
+                            num > 0
                                 ? Math.trunc(
-                                      0.307 * Math.log(ss.length + num - 1)
+                                      Math.log(ss.length + num - 1) /
+                                          Math.log(26)
                                   ) + 1
                                 : 1;
                         editor.edit(edit => {
