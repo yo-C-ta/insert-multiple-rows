@@ -40,12 +40,14 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(async value => {
+                    if (value === undefined) {
+                        return;
+                    }
                     const lastLineCnt = editor.document.lineCount - 1;
                     const lastLine = editor.document.lineAt(lastLineCnt);
                     const remLineCnt =
                         editor.document.lineCount - sels[0].start.line;
-                    const insLineCnt =
-                        value !== undefined ? parseInt(value, 10) : 1;
+                    const insLineCnt = parseInt(value, 10);
                     await editor.edit(edit => {
                         if (insLineCnt > remLineCnt) {
                             edit.insert(
