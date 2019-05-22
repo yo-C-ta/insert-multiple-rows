@@ -63,6 +63,7 @@ export function activate(context: ExtensionContext) {
                         const position = new Position(lnum, cnum);
                         sels.push(new Selection(position, position));
                     }
+                    editor.selections = sels;
                     insertion(sels);
                 });
         }
