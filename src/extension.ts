@@ -33,8 +33,10 @@ export function activate(context: ExtensionContext) {
                     value: '1',
                     prompt: 'How many rows?',
                     validateInput: param => {
-                        const regex = /^[0-9]+$/;
-                        return regex.test(param) ? '' : 'input: decimal number';
+                        const regex = /^[1-9][0-9]*$/;
+                        return regex.test(param)
+                            ? ''
+                            : 'input: decimal number (not less than 1)';
                     },
                 })
                 .then(async value => {
