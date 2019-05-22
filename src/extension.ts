@@ -22,7 +22,7 @@ export function activate(context: ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     const insertMultipleRows = (
         editor: TextEditor,
-        insertion: (ss: Selection[]) => void
+        insertion: (ss: Selection[]) => Selection[] | undefined
     ) => {
         const sels = editor.selections;
         if (sels.length !== 1) {
@@ -67,8 +67,8 @@ export function activate(context: ExtensionContext) {
                         const position = new Position(lnum, cnum);
                         sels.push(new Selection(position, position));
                     }
-                    editor.selections = sels;
-                    insertion(sels);
+                    const newsels = insertion(sels);
+                    if (newsels !== undefined) editor.selections = newsels;
                 });
         }
     };
@@ -107,14 +107,21 @@ export function activate(context: ExtensionContext) {
                         }
                         const padding = padconf.charAt(0).repeat(10);
                         const digit = Math.log10(ss.length + num - 1) + 1;
+                        const newss: Selection[] = [];
                         editor.edit(edit => {
                             ss.forEach(select => {
                                 const text = (
                                     padding + (num++).toString()
                                 ).slice(-digit);
                                 edit.insert(select.start, text);
+                                const pos = new Position(
+                                    select.start.line,
+                                    select.start.character + text.length
+                                );
+                                newss.push(new Selection(pos, pos));
                             });
                         });
+                        return newss;
                     };
                     insertMultipleRows(editor, insertDec);
                 });
@@ -155,18 +162,25 @@ export function activate(context: ExtensionContext) {
                         } else if (ss.length + shift <= 16) {
                             digit = 4;
                         }
+                        const newss: Selection[] = [];
                         editor.edit(edit => {
                             ss.forEach(select => {
-                                const text = (1 << shift)
+                                const hex = (1 << shift)
                                     .toString(16)
                                     .toUpperCase();
-                                edit.insert(
-                                    select.start,
-                                    '0x' + ('0'.repeat(8) + text).slice(-digit)
-                                );
+                                const text =
+                                    '0x' + ('0'.repeat(8) + hex).slice(-digit);
+                                edit.insert(select.start, text);
                                 shift++;
+
+                                const pos = new Position(
+                                    select.start.line,
+                                    select.start.character + text.length
+                                );
+                                newss.push(new Selection(pos, pos));
                             });
                         });
+                        return newss;
                     };
                     insertMultipleRows(editor, insertBf);
                 });
@@ -207,12 +221,13 @@ export function activate(context: ExtensionContext) {
                         });
                     const insertChar = (ss: Selection[]) => {
                         const digit =
-                            num > 0
+                            ss.length > 1
                                 ? Math.trunc(
                                       Math.log(ss.length + num - 1) /
                                           Math.log(26)
                                   ) + 1
                                 : 1;
+                        const newss: Selection[] = [];
                         editor.edit(edit => {
                             ss.forEach(select => {
                                 const text = (
@@ -227,8 +242,15 @@ export function activate(context: ExtensionContext) {
                                     })
                                     .join('');
                                 edit.insert(select.start, text);
+
+                                const pos = new Position(
+                                    select.start.line,
+                                    select.start.character + text.length
+                                );
+                                newss.push(new Selection(pos, pos));
                             });
                         });
+                        return newss;
                     };
                     insertMultipleRows(editor, insertChar);
                 });
