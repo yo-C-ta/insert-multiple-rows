@@ -22,10 +22,12 @@ export function activate(context: ExtensionContext) {
     /*------------------------------------------------------------------------------------------*/
     const insertMultipleRows = (
         editor: TextEditor,
-        sels: Selection[],
-        insertion: () => void
+        insertion: (ss: Selection[]) => void
     ) => {
-        if (sels.length === 1) {
+        const sels = editor.selections;
+        if (sels.length !== 1) {
+            insertion(sels);
+        } else {
             window
                 .showInputBox({
                     value: '1',
@@ -35,44 +37,34 @@ export function activate(context: ExtensionContext) {
                         return regex.test(param) ? '' : 'input: decimal number';
                     },
                 })
-                .then(value => {
-                    const linenum =
-                        value !== undefined ? parseInt(value, 10) : 1;
+                .then(async value => {
                     const lastLineCnt = editor.document.lineCount - 1;
                     const lastLine = editor.document.lineAt(lastLineCnt);
-                    const remain =
+                    const remLineCnt =
                         editor.document.lineCount - sels[0].start.line;
+                    const insLineCnt =
+                        value !== undefined ? parseInt(value, 10) : 1;
+                    await editor.edit(edit => {
+                        if (insLineCnt > remLineCnt) {
+                            edit.insert(
+                                new Position(lastLineCnt, lastLine.text.length),
+                                EOL.repeat(insLineCnt - remLineCnt)
+                            );
+                        }
+                    });
 
-                    editor
-                        .edit(edit => {
-                            if (linenum > remain) {
-                                edit.insert(
-                                    new Position(
-                                        lastLineCnt,
-                                        lastLine.text.length
-                                    ),
-                                    EOL.repeat(linenum - remain)
-                                );
-                            }
-                        })
-                        .then(value => {
-                            const curline = sels[0].start.line + 1;
-                            for (
-                                let lnum = curline;
-                                lnum < curline + linenum - 1 &&
-                                lnum < editor.document.lineCount;
-                                lnum++
-                            ) {
-                                const cnum = editor.document.lineAt(lnum).text
-                                    .length;
-                                const position = new Position(lnum, cnum);
-                                sels.push(new Selection(position, position));
-                            }
-                            insertion();
-                        });
+                    const curLine = sels[0].start.line + 1;
+                    for (
+                        let lnum = curLine;
+                        lnum < curLine + insLineCnt - 1;
+                        lnum++
+                    ) {
+                        const cnum = editor.document.lineAt(lnum).text.length;
+                        const position = new Position(lnum, cnum);
+                        sels.push(new Selection(position, position));
+                    }
+                    insertion(sels);
                 });
-        } else {
-            insertion();
         }
     };
 
@@ -96,10 +88,9 @@ export function activate(context: ExtensionContext) {
                     if (value === undefined || editor === undefined) {
                         return;
                     }
-                    const sels = editor.selections;
-                    let num = parseInt(value, 10);
 
-                    const insertDec = () => {
+                    let num = parseInt(value, 10);
+                    const insertDec = (ss: Selection[]) => {
                         const padconf = workspace
                             .getConfiguration()
                             .get('insertDecimalToMultipleRows.paddingChar');
@@ -111,11 +102,10 @@ export function activate(context: ExtensionContext) {
                         }
                         const padding = padconf.charAt(0).repeat(10);
                         const digit =
-                            Math.trunc(
-                                0.435 * Math.log(sels.length + num - 1)
-                            ) + 1;
+                            Math.trunc(0.435 * Math.log(ss.length + num - 1)) +
+                            1;
                         editor.edit(edit => {
-                            sels.forEach(select => {
+                            ss.forEach(select => {
                                 const text = (
                                     padding + (num++).toString()
                                 ).slice(-digit);
@@ -123,7 +113,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insertMultipleRows(editor, sels, insertDec);
+                    insertMultipleRows(editor, insertDec);
                 });
         }
     );
@@ -151,20 +141,19 @@ export function activate(context: ExtensionContext) {
                     if (value === undefined || editor === undefined) {
                         return;
                     }
-                    const sels = editor.selections;
+
                     let shift = Math.trunc(
                         1.443 * Math.log(parseInt(value, 16))
                     );
-
-                    const insertBf = () => {
+                    const insertBf = (ss: Selection[]) => {
                         let digit = 8;
-                        if (sels.length + shift <= 8) {
+                        if (ss.length + shift <= 8) {
                             digit = 2;
-                        } else if (sels.length + shift <= 16) {
+                        } else if (ss.length + shift <= 16) {
                             digit = 4;
                         }
                         editor.edit(edit => {
-                            sels.forEach(select => {
+                            ss.forEach(select => {
                                 const text = (1 << shift)
                                     .toString(16)
                                     .toUpperCase();
@@ -176,7 +165,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insertMultipleRows(editor, sels, insertBf);
+                    insertMultipleRows(editor, insertBf);
                 });
         }
     );
@@ -201,6 +190,7 @@ export function activate(context: ExtensionContext) {
                     if (value === undefined || editor === undefined) {
                         return;
                     }
+
                     let len = value.split('').length;
                     let num = value
                         .split('')
@@ -212,17 +202,15 @@ export function activate(context: ExtensionContext) {
                         .reduce((prv, current) => {
                             return prv + current;
                         });
-                    const sels = editor.selections;
-
-                    const insertChar = () => {
+                    const insertChar = (ss: Selection[]) => {
                         const digit =
-                            sels.length > 1
+                            ss.length > 1
                                 ? Math.trunc(
-                                      0.307 * Math.log(sels.length + num - 1)
+                                      0.307 * Math.log(ss.length + num - 1)
                                   ) + 1
                                 : 1;
                         editor.edit(edit => {
-                            sels.forEach(select => {
+                            ss.forEach(select => {
                                 const text = (
                                     '0'.repeat(10) + (num++).toString(26)
                                 )
@@ -238,7 +226,7 @@ export function activate(context: ExtensionContext) {
                             });
                         });
                     };
-                    insertMultipleRows(editor, sels, insertChar);
+                    insertMultipleRows(editor, insertChar);
                 });
         }
     );
