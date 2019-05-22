@@ -41,4 +41,8 @@ USAGE: Set multi-cursor and call bellow commands.
 
 ![c sample](./images/example/c_define.gif)
 
+### Insert to 10,000 rows
+
+![10000 rows](./images/example/10000rows.gif)
+
 ## [Release Note](./CHANGELOG.md)
