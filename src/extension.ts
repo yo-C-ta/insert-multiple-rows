@@ -21,12 +21,14 @@ export function activate(context: ExtensionContext) {
     /*  Insert cursor support function                                                          */
     /*------------------------------------------------------------------------------------------*/
     const insertMultipleRows = (
-        editor: TextEditor,
-        insertion: (ss: Selection[]) => Selection[] | undefined
+        insertion: (ed: TextEditor, ss: Selection[]) => Selection[] | undefined
     ) => {
+        const editor = window.activeTextEditor;
+        if (editor === undefined) return;
+
         const sels = editor.selections;
         if (sels.length !== 1) {
-            insertion(sels);
+            insertion(editor, sels);
         } else {
             window
                 .showInputBox({
@@ -67,7 +69,7 @@ export function activate(context: ExtensionContext) {
                         const position = new Position(lnum, cnum);
                         sels.push(new Selection(position, position));
                     }
-                    const newsels = insertion(sels);
+                    const newsels = insertion(editor, sels);
                     if (newsels !== undefined) editor.selections = newsels;
                 });
         }
@@ -89,13 +91,10 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = window.activeTextEditor;
-                    if (value === undefined || editor === undefined) {
-                        return;
-                    }
+                    if (value === undefined) return;
 
                     let num = parseInt(value, 10);
-                    const insertDec = (ss: Selection[]) => {
+                    const insertDec = (ed: TextEditor, ss: Selection[]) => {
                         const padconf = workspace
                             .getConfiguration()
                             .get('insertDecimalToMultipleRows.paddingChar');
@@ -108,7 +107,7 @@ export function activate(context: ExtensionContext) {
                         const padding = padconf.charAt(0).repeat(10);
                         const digit = Math.log10(ss.length + num - 1) + 1;
                         const newss: Selection[] = [];
-                        editor.edit(edit => {
+                        ed.edit(edit => {
                             ss.forEach(select => {
                                 const text = (
                                     padding + (num++).toString()
@@ -123,7 +122,7 @@ export function activate(context: ExtensionContext) {
                         });
                         return newss;
                     };
-                    insertMultipleRows(editor, insertDec);
+                    insertMultipleRows(insertDec);
                 });
         }
     );
@@ -147,15 +146,12 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = window.activeTextEditor;
-                    if (value === undefined || editor === undefined) {
-                        return;
-                    }
+                    if (value === undefined) return;
 
                     let shift = Math.trunc(
                         Math.log(parseInt(value, 16)) / Math.log(2)
                     );
-                    const insertBf = (ss: Selection[]) => {
+                    const insertBf = (ed: TextEditor, ss: Selection[]) => {
                         let digit = 8;
                         if (ss.length + shift <= 8) {
                             digit = 2;
@@ -163,7 +159,7 @@ export function activate(context: ExtensionContext) {
                             digit = 4;
                         }
                         const newss: Selection[] = [];
-                        editor.edit(edit => {
+                        ed.edit(edit => {
                             ss.forEach(select => {
                                 const hex = (1 << shift)
                                     .toString(16)
@@ -182,7 +178,7 @@ export function activate(context: ExtensionContext) {
                         });
                         return newss;
                     };
-                    insertMultipleRows(editor, insertBf);
+                    insertMultipleRows(insertBf);
                 });
         }
     );
@@ -203,10 +199,7 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    const editor = window.activeTextEditor;
-                    if (value === undefined || editor === undefined) {
-                        return;
-                    }
+                    if (value === undefined) return;
 
                     let len = value.split('').length;
                     let num = value
@@ -219,7 +212,7 @@ export function activate(context: ExtensionContext) {
                         .reduce((prv, current) => {
                             return prv + current;
                         });
-                    const insertChar = (ss: Selection[]) => {
+                    const insertChar = (ed: TextEditor, ss: Selection[]) => {
                         const digit =
                             ss.length > 1
                                 ? Math.trunc(
@@ -228,7 +221,7 @@ export function activate(context: ExtensionContext) {
                                   ) + 1
                                 : 1;
                         const newss: Selection[] = [];
-                        editor.edit(edit => {
+                        ed.edit(edit => {
                             ss.forEach(select => {
                                 const text = (
                                     '0'.repeat(10) + (num++).toString(26)
@@ -252,7 +245,7 @@ export function activate(context: ExtensionContext) {
                         });
                         return newss;
                     };
-                    insertMultipleRows(editor, insertChar);
+                    insertMultipleRows(insertChar);
                 });
         }
     );
