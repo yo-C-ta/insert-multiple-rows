@@ -20,9 +20,9 @@ USAGE: Set multi-cursor and call bellow commands.
 
 ![Insert bitfield demo](./images/bit.gif)
 
-### _Command_: Insert charcter to multiple rows :capital_abcd:
+### _Command_: Insert character to multiple rows :capital_abcd:
 
-![Insert charcter demo](./images/char.gif)
+![Insert character demo](./images/char.gif)
 
 ## Extension Settings
 
