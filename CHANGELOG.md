@@ -1,5 +1,10 @@
 # Release Notes
 
+## 2.2.2
+
+-   Fix typo (thank you for your PR @IamPhytan)
+-   Update dependency in package.json
+
 ## 2.2.1
 
 -   Update dependency in package.json
