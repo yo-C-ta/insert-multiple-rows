@@ -184,7 +184,7 @@ export function activate(context: ExtensionContext) {
     );
 
     /*------------------------------------------------------------------------------------------*/
-    /*  Insert charcter to multiple rows                                                        */
+    /*  Insert character to multiple rows                                                        */
     /*------------------------------------------------------------------------------------------*/
     const insCharMulrowsCmd = commands.registerCommand(
         'extension.insCharMulrows',
