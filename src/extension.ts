@@ -26,7 +26,7 @@ export function activate(context: ExtensionContext) {
         const editor = window.activeTextEditor;
         if (editor === undefined) return;
 
-        const sels = editor.selections;
+        const sels = editor.selections as Selection[];
         if (sels.length !== 1) {
             insertion(editor, sels);
         } else {
@@ -216,9 +216,9 @@ export function activate(context: ExtensionContext) {
                         const digit =
                             ss.length > 1
                                 ? Math.trunc(
-                                      Math.log(ss.length + num - 1) /
-                                          Math.log(26)
-                                  ) + 1
+                                    Math.log(ss.length + num - 1) /
+                                    Math.log(26)
+                                ) + 1
                                 : 1;
                         const newss: Selection[] = [];
                         ed.edit(edit => {
@@ -257,4 +257,4 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(insCharMulrowsCmd);
 }
 
-export function deactivate() {}
+export function deactivate() { }
