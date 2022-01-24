@@ -24,7 +24,9 @@ export function activate(context: ExtensionContext) {
         insertion: (ed: TextEditor, ss: Selection[]) => Selection[] | undefined
     ) => {
         const editor = window.activeTextEditor;
-        if (editor === undefined) return;
+        if (editor === undefined) {
+            return;
+        }
 
         const sels = editor.selections as Selection[];
         if (sels.length !== 1) {
@@ -70,7 +72,9 @@ export function activate(context: ExtensionContext) {
                         sels.push(new Selection(position, position));
                     }
                     const newsels = insertion(editor, sels);
-                    if (newsels !== undefined) editor.selections = newsels;
+                    if (newsels !== undefined) {
+                        editor.selections = newsels;
+                    }
                 });
         }
     };
@@ -91,7 +95,9 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    if (value === undefined) return;
+                    if (value === undefined) {
+                        return;
+                    }
 
                     let num = parseInt(value, 10);
                     const insertDec = (ed: TextEditor, ss: Selection[]) => {
@@ -146,7 +152,9 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    if (value === undefined) return;
+                    if (value === undefined) {
+                        return;
+                    }
 
                     let shift = Math.trunc(
                         Math.log(parseInt(value, 16)) / Math.log(2)
@@ -199,7 +207,9 @@ export function activate(context: ExtensionContext) {
                     },
                 })
                 .then(value => {
-                    if (value === undefined) return;
+                    if (value === undefined) {
+                        return;
+                    }
 
                     let len = value.split('').length;
                     let num = value
