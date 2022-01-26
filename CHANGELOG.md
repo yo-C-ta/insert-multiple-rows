@@ -5,6 +5,7 @@
 -   Update dependency in package.json
 -   Replace TSLint to ESLint
 -   Replace Travis CI to GitHub Actions
+-   Add `esbuild` to compress output
 
 ## 2.2.2
 
