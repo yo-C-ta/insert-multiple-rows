@@ -1,5 +1,11 @@
 # Release Notes
 
+## 2.2.3
+
+-   Update dependency in package.json
+-   Replace TSLint to ESLint
+-   Replace Travis CI to GitHub Actions
+
 ## 2.2.2
 
 -   Fix typo (thank you for your PR @IamPhytan)

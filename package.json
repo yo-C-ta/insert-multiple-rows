@@ -2,7 +2,7 @@
   "name": "insert-multiple-rows",
   "displayName": "Insert Multiple Rows",
   "description": "Insert sequential number / bit-field / character to multi-cursor rows.",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "engines": {
     "vscode": "^1.29.0"
   },
