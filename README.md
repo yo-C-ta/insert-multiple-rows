@@ -1,6 +1,6 @@
 # Insert Multiple Rows
 
-![version](https://img.shields.io/github/package-json/v/yo-C-ta/insert-multiple-rows.svg) ![issue](https://img.shields.io/github/issues/yo-C-ta/insert-multiple-rows.svg) ![size](https://img.shields.io/github/repo-size/yo-C-ta/insert-multiple-rows.svg) ![license](https://img.shields.io/github/license/yo-C-ta/insert-multiple-rows.svg) ![rate](https://img.shields.io/visual-studio-marketplace/r/yo-C-ta.insert-multiple-rows.svg) ![download](https://img.shields.io/visual-studio-marketplace/d/yo-C-ta.insert-multiple-rows.svg) ![Build Status](https://github.com/yo-C-ta/insert-multiple-rows/actions/workflows/build.yml/badge.svg)
+![version](https://img.shields.io/github/package-json/v/yo-C-ta/insert-multiple-rows.svg) ![issue](https://img.shields.io/github/issues/yo-C-ta/insert-multiple-rows.svg) ![rate](https://img.shields.io/visual-studio-marketplace/r/yo-C-ta.insert-multiple-rows.svg) ![download](https://img.shields.io/visual-studio-marketplace/d/yo-C-ta.insert-multiple-rows.svg) ![Build Status](https://github.com/yo-C-ta/insert-multiple-rows/actions/workflows/build.yml/badge.svg)
 
 A extension to insert sequential number / bit-field / character to multi-cursor rows.
 
