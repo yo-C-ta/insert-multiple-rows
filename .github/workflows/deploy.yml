@@ -2,8 +2,7 @@ name: deploy
 
 on:
   push:
-    branches:
-#    tags: TODO:
+    tags:
       - '*'
 
 jobs:
@@ -20,7 +19,7 @@ jobs:
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
-          dryRun: true # TODO:
+          # dryRun: true
       #- name: Publish to Open VSX Registry
       #  uses: HaaLeo/publish-vscode-extension@v1
       #  with:
